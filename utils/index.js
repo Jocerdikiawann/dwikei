@@ -1,7 +1,7 @@
-const { ResponseWeb } = require('./response-util')
-const enum_util = require('./enum-util')
-const log_util = require('./log-util')
-const config_db_util = require('./config-db-util')
+const { ResponseWeb } = require('./response_util')
+const enum_util = require('./enum_util')
+const log_util = require('./log_util')
+const config_db_util = require('./config_db_util')
 
 module.exports = {
     ResponseWeb,

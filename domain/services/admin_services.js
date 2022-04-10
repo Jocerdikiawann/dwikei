@@ -1,6 +1,14 @@
 const { ResponseWeb, enum_util, log_util } = require('../../utils')
 const { admin_repo } = require('../repository')
+
 const bycrypt = require('bcrypt')
+const {
+    JWT_SECRET,
+    JWT_SECRET_REFRESH_TOKEN,
+    JWT_ACCESS_TOKEN_EXPIRED,
+    JWT_REFRESH_TOKEN_EXPIRED,
+} = process.env
+const jwt = require('jsonwebtoken')
 const Validator = require("fastest-validator");
 const v = new Validator();
 
@@ -14,7 +22,6 @@ exports.LoginAdmin = async (request) => {
         };
 
         const validate = v.validate(request.body, schema);
-
         if (validate.length) {
             return await ResponseWeb(enum_util.CODE_BAD_REQUEST, "error", validate, {})
         }
@@ -69,49 +76,6 @@ exports.RegisterAdmin = async (request) => {
 
         const createdAdmin = await admin_repo.PostVisitor(data)
         return await ResponseWeb(enum_util.CODE_CREATED, "success", "data has been store", createdAdmin)
-    } catch (error) {
-        return await ResponseWeb(enum_util.CODE_BAD_REQUEST, 'error', error.message, {})
-    }
-}
-
-exports.PutVisitor = async (request) => {
-    try {
-        const { id } = request.params
-
-        const check_user = await visitor_orm.FetchDetailVisitorById(id)
-
-        if (!check_user)
-            return await ResponseWeb(enum_util.CODE_BAD_REQUEST, "error", "visitor not found", {})
-
-        const updated = await visitor_orm.PutVisitor(check_user, request.body)
-
-        const new_data_user = await visitor_orm.FetchDetailVisitorById(id)
-
-        if (!new_data_user)
-            return await ResponseWeb(enum_util.CODE_BAD_REQUEST, "error", "visitor not found", {})
-
-        return await ResponseWeb(enum_util.CODE_CREATED, "success", "data has been updated", new_data_user)
-    } catch (error) {
-        return await ResponseWeb(enum_util.CODE_BAD_REQUEST, 'error', error.message, {})
-    }
-}
-
-exports.DeleteVisitor = async (request) => {
-    try {
-        const { id } = request.params
-        const check_user = await visitor_orm.FetchDetailVisitorById(id)
-
-        if (!check_user)
-            return await ResponseWeb(enum_util.CODE_BAD_REQUEST, "error", "visitor not found", {})
-
-        await visitor_orm.DeleteVisitor(request.body)
-
-        const visitors = await visitor_orm.FetchAllVisitors()
-
-        visitors.sort((a, b) => {
-            return new Date(a.createdAt) - new Date(b.createdAt)
-        })
-        return await ResponseWeb(enum_util.CODE_CREATED, "success", "data has been sent", visitors)
     } catch (error) {
         return await ResponseWeb(enum_util.CODE_BAD_REQUEST, 'error', error.message, {})
     }

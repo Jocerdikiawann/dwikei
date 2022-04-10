@@ -37,15 +37,15 @@ exports.PostVisitor = async (request) => {
             status_follow_up: "boolean|empty:false"
         }
 
-        const validate = v.validate(req.body, schema_validator)
+        const validate = v.validate(request.body, schema_validator)
         if (validate.length) {
             return await ResponseWeb(enum_util.CODE_BAD_REQUEST, "error", validate, {})
         }
 
         const new_visitor = await visitors_repo.PostVisitor(request.body)
-        if (new_visitor.err) {
-            return await ResponseWeb(new_visitor.err.status_code, new_visitor.err.status, new_visitor.err.message, {})
-        }
+        new_visitor.sort((a, b) => {
+            a.createdAt - b.createdAt
+        })
         return await ResponseWeb(enum_util.CODE_CREATED, "success", "data has been store", new_visitor)
     } catch (error) {
         return await ResponseWeb(enum_util.CODE_BAD_REQUEST, 'error', error.message, {})
@@ -63,7 +63,7 @@ exports.PutVisitor = async (request) => {
             status_follow_up: "boolean|optional"
         }
 
-        const validate = v.validate(req.body, schema_validator)
+        const validate = v.validate(request.body, schema_validator)
 
         if (validate.length) {
             return await ResponseWeb(enum_util.CODE_BAD_REQUEST, "error", validate, {})
