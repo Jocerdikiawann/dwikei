@@ -20,7 +20,7 @@ exports.LoginAdmin = async (request) => {
             email: "email|empty:false",
             password: "string|min:6",
         };
-
+        
         const validate = v.validate(request.body, schema);
         if (validate.length) {
             return await ResponseWeb(enum_util.CODE_BAD_REQUEST, "error", validate, {})
