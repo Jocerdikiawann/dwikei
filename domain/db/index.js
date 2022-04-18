@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const { adminModel, visitorsModel, refresh_token } = require('../model');
+const { adminModel, visitorsModel, tokenModel } = require('../model');
 const { log_util, config_db_util } = require('../../utils');
 
 let db = {}
@@ -19,7 +19,7 @@ if (config_db_util.db.mongodb && Object.keys(config_db_util.db.mongodb).length >
     db[connectionName].conn = mongoose
     db[connectionName].Admin = adminModel(mongoose)
     db[connectionName].Visitors = visitorsModel(mongoose)
-    db[connectionName].RefreshToken = refresh_token(mongoose)
+    db[connectionName].Token = tokenModel(mongoose)
 
     exports.db = db;
 } else {

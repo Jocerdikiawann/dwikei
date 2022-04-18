@@ -3,7 +3,8 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "nodemon -L ./bin/www"
+    "start": "nodemon -L ./bin/www",
+    "docker-down-all": "docker-compose down --rmi all; docker rmi -f $(docker images -aq); docker volume rm $(docker volume ls -q)"
   },
   "dependencies": {
     "bcrypt": "^5.0.1",

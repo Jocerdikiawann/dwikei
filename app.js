@@ -9,6 +9,7 @@ var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var visitorRouter = require('./routes/visitors')
 var adminRouter = require('./routes/admin')
+const tokenRouter = require('./routes/token')
 
 var app = express();
 
@@ -23,6 +24,7 @@ app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/api/v1', visitorRouter)
 app.use('/api/v1', adminRouter)
+app.use('/api/v1', tokenRouter)
 
 
 module.exports = app;

@@ -1,4 +1,4 @@
-const { enum_util, ResponseWeb } = require('../../utils')
+
 const getDatabase = require('../db')
 
 exports.FetchAllVisitors = async () => {

@@ -1,10 +1,10 @@
 
 const visitorsModel = require('./visitors_model')
 const adminModel = require('./admin_model')
-const refresh_token = require('./refresh_token')
+const tokenModel = require('./token_model')
 
 module.exports = {
     visitorsModel,
     adminModel,
-    refresh_token
+    tokenModel
 }

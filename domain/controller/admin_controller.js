@@ -10,3 +10,8 @@ exports.RegisterAdmin = async (req, res) => {
     const admin = await admin_services.RegisterAdmin(req)
     return res.status(admin.code).json(admin)
 }
+
+exports.LogoutAdmin = async (req, res) => {
+    const admin = await admin_services.LogoutAdmin(req)
+    return res.status(admin.code).json(admin)
+}
