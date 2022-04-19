@@ -26,7 +26,7 @@ module.exports = async (req, res, next) => {
         return res.status(enum_util.CODE_BAD_REQUEST).json({
             code: enum_util.CODE_BAD_REQUEST,
             status: "error",
-            message: error.message,
+            message: "Unauthorized",
             data: {}
         })
     }

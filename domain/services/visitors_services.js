@@ -7,7 +7,7 @@ exports.FetchAllVisitors = async (request) => {
     try {
         const visitors = await visitors_repo.FetchAllVisitors()
         visitors.sort((a, b) => {
-            return new Date(a.createdAt) - new Date(b.createdAt)
+            return new Date(b.createdAt) - new Date(a.createdAt)
         })
         return await ResponseWeb(enum_util.CODE_OK, "success", "data has been sent", visitors)
     } catch (error) {
@@ -42,9 +42,10 @@ exports.PostVisitor = async (request) => {
             return await ResponseWeb(enum_util.CODE_BAD_REQUEST, "error", validate, {})
         }
 
-        const new_visitor = await visitors_repo.PostVisitor(request.body)
+        await visitors_repo.PostVisitor(request.body)
+        const new_visitor = await visitors_repo.FetchAllVisitors()
         new_visitor.sort((a, b) => {
-            a.createdAt - b.createdAt
+            return new Date(b.createdAt) - new Date(a.createdAt)
         })
         return await ResponseWeb(enum_util.CODE_CREATED, "success", "data has been store", new_visitor)
     } catch (error) {
