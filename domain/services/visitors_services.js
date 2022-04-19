@@ -96,7 +96,7 @@ exports.DeleteVisitor = async (request) => {
         if (!check_user)
             return await ResponseWeb(enum_util.CODE_NOT_FOUND, "error", "visitor not found", {})
 
-        await visitors_repo.DeleteVisitor(request.body)
+        await visitors_repo.DeleteVisitor(check_user)
 
         const visitors = await visitors_repo.FetchAllVisitors()
 
